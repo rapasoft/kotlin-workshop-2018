@@ -81,5 +81,9 @@ fun main(args: Array<String>) {
 
     println(Time.convertToTime(3.5))
 
-    Workday(Time(-1), Time(12))
+    try {
+        Workday(Time(-1), Time(12))
+    } catch (e: Exception) {
+        println(e.message)
+    }
 }
