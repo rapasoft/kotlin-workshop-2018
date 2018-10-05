@@ -22,11 +22,15 @@ data class Time(val hours: Int, val minutes: Int) : Comparable<Time> {
                 else -> Time(time.toInt())
             }
         }
+
+        @JvmStatic
+        fun convertToDouble(time: Time): Double {
+            return time.hours + time.minutes / 60.0
+        }
     }
 
     // null-safe check (elvis operator)
-    constructor(hours: Int?)
-            : this(hours ?: 0, 0)
+    constructor(hours: Int?) : this(hours ?: 0, 0)
 
     // Operator overloading by implementing compareTo
     override fun compareTo(other: Time): Int {
@@ -38,7 +42,7 @@ data class Time(val hours: Int, val minutes: Int) : Comparable<Time> {
 
     // Operator overloading
     operator fun minus(other: Time): Time {
-        return Time(this.hours - other.hours, this.minutes - other.minutes)
+        return convertToTime(convertToDouble(this) - convertToDouble(other))
     }
 
     override fun toString() = "${hours.padZeros(2)}:${minutes.padZeros(2)}"
@@ -67,7 +71,9 @@ class Workday(override val start: Time, override val endInclusive: Time) : Close
 }
 
 fun main(args: Array<String>) {
-    println(Time(10, 30) in Workday())
+    println(Time(1, 30) > Time(0, 45))
+    println(Time(1, 30) - Time(0, 45))
+    println(Time(10, 30) in Workday(Time(8), Time(16)))
     println(Time(7) in Workday())
 
     println(Workday(Time(8), Time(17, 15)).calculateOvertime())
