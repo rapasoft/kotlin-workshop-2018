@@ -19,22 +19,7 @@ package koans
  *
  */
 
-data class InvoicingPeriod(val month: Int, val year: Int) : Comparable<InvoicingPeriod> {
-    override fun compareTo(other: InvoicingPeriod) = this.year - other.year + this.month - other.month
-    operator fun inc(): InvoicingPeriod = this.copy(
-        if (month < 12) {
-            month + 1
-        } else 1,
-        if (month == 12) {
-            year + 1
-        } else year
-    )
-
-    init {
-        require(month in 1 .. 12 && year > 1970) { "You must use valid month and year" }
-    }
-}
-
+data class InvoicingPeriod(val month: Int, val year: Int)
 data class Invoice(val price: Int, val paid: Boolean, val invoicingPeriod: InvoicingPeriod)
 data class Customer(val name: String, val projects: List<Project>)
 data class Project(val name: String, val invoices: List<Invoice>)
